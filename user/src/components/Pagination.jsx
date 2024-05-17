@@ -16,7 +16,7 @@ const Pagination = ({
   setPage,
   handleLimitChange,
 }) => (
-  <Flex justify="flex-end" align="center" color="fontColorGrey">
+  <Flex justify="flex-end" align="center" color="fontColorGrey" mt="1em">
     <Text>Rows per page</Text>
     <Flex align="center" color="fontColorGrey" ml={2}>
       <Text>Rows per page</Text>

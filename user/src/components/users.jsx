@@ -1,5 +1,6 @@
 import { Box, Heading } from "@chakra-ui/react";
 import React, { Suspense, useEffect, useState } from "react";
+
 import {
   Table,
   Flex,
@@ -14,22 +15,27 @@ import {
   Avatar,
   Skeleton,
   Stack,
+  useDisclosure,
 } from "@chakra-ui/react";
-
+import { useToast } from "@chakra-ui/react";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
 import axios from "axios";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import Pagination from "./Pagination";
-const DisplayUser = () => {
+import EditUser from "./EditUser";
+import { deleteUser } from "../requests";
+const DisplayUser = ({ setDetails, details, totalCount, setTotalCount }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
+
   const BASE_URL = "https://jsonplaceholder.typicode.com";
-  const [details, setDetails] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const totalCount = 10;
+  const [editUser, setEditUser] = useState({});
   // Fetch
   const getUsers = async (page, limit) => {
     try {
@@ -37,6 +43,7 @@ const DisplayUser = () => {
       const response = await axios.get(
         `${BASE_URL}/users?_page=${page}&_limit=${limit}`
       );
+      console.log(response.data);
       if (!response) {
         setError("Something went wrong!");
         return;
@@ -49,9 +56,11 @@ const DisplayUser = () => {
       setLoading(false);
     }
   };
+
   const handleLimitChange = (value) => {
     setLimit(Number(value));
   };
+  const handleDelete = () => {};
   useEffect(() => {
     getUsers(page, limit);
   }, [page, limit]);
@@ -93,36 +102,72 @@ const DisplayUser = () => {
             {details &&
               details.map((user, index) => {
                 return (
-                  <Tr key={index}>
-                    <Td color={"headingColorWhite"}>{user.id}</Td>
+                  <>
+                    <Tr key={index}>
+                      <Td color={"headingColorWhite"}>{user.id}</Td>
 
-                    <Td color={"headingColorWhite"}>
-                      {" "}
-                      <Flex align="center" gap="10px">
-                        <Avatar
-                          size="sm"
-                          name={user.name}
-                          src="https://bit.ly/broken-link"
-                        />
-                        {user.name}
-                      </Flex>
-                    </Td>
-                    <Td color={"headingColorWhite"}>{user.email}</Td>
-                    <Td color={"headingColorWhite"}>{user.name}</Td>
-                    <Td>
-                      <Button bg="ctaPurple" borderRadius={"1em"} mr="10px">
-                        <FaEdit />
-                      </Button>
-                      <Button bg="ctaPurple" borderRadius={"1em"}>
-                        <MdDelete />
-                      </Button>
-                    </Td>
-                  </Tr>
+                      <Td color={"headingColorWhite"}>
+                        {" "}
+                        <Flex align="center" gap="10px">
+                          <Avatar
+                            size="sm"
+                            name={user.name}
+                            src="https://bit.ly/broken-link"
+                          />
+                          {user.name}
+                        </Flex>
+                      </Td>
+                      <Td color={"headingColorWhite"}>{user.email}</Td>
+                      <Td color={"headingColorWhite"}>{user.company.name}</Td>
+                      <Td>
+                        <Button
+                          bg="ctaPurple"
+                          borderRadius={"1em"}
+                          onClick={() => {
+                            setEditUser(user);
+                            onOpen();
+                          }}
+                          mr="10px"
+                        >
+                          <FaEdit />
+                        </Button>
+                        <Button
+                          bg="ctaPurple"
+                          borderRadius={"1em"}
+                          onClick={async () => {
+                            const result = await deleteUser(
+                              user.id,
+                              setDetails
+                            );
+                            if (result)
+                              toast({
+                                title: "Success",
+                                description: "Deleted",
+                                status: "success",
+                                duration: 5000,
+                                isClosable: true,
+                              });
+                          }}
+                        >
+                          <MdDelete />
+                        </Button>
+                      </Td>
+                    </Tr>
+                  </>
                 );
               })}
           </Tbody>
         </Table>
       </TableContainer>
+      <EditUser
+        isOpen={isOpen}
+        onClose={onClose}
+        userData={editUser}
+        setDetails={setDetails}
+        operation={"edit"}
+        setTotalCount={setTotalCount}
+      />
+
       <Pagination
         page={page}
         limit={limit}
