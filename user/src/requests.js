@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = "https://jsonplaceholder.typicode.com";
-
+//CRUD OPERATIONS
 export const editUser = async (id, editData, setDetails) => {
   try {
     const response = await axios.patch(`${BASE_URL}/users/${id}`, editData, {
@@ -57,5 +57,31 @@ export const createUser = async (userData, setDetails, setTotalCount) => {
   } catch (error) {
     console.error("Failed to add user:", error);
     throw new Error("Failed to add user");
+  }
+};
+
+export const getUsers = async (
+  page,
+  limit,
+  setLoading,
+  setError,
+  setDetails
+) => {
+  try {
+    setLoading(true);
+    const response = await axios.get(
+      `${BASE_URL}/users?_page=${page}&_limit=${limit}`
+    );
+    console.log(response.data);
+    if (!response) {
+      setError("Something went wrong!");
+      return;
+    }
+    setDetails(response.data);
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    setError(error);
+  } finally {
+    setLoading(false);
   }
 };

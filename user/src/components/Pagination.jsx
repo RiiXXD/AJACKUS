@@ -16,8 +16,13 @@ const Pagination = ({
   setPage,
   handleLimitChange,
 }) => (
-  <Flex justify="flex-end" align="center" color="fontColorGrey" mt="1em">
-    <Text>Rows per page</Text>
+  <Flex
+    justify="flex-end"
+    align="center"
+    color="fontColorGrey"
+    mt="1em"
+    flexDir={["column", "column", "row", "row"]}
+  >
     <Flex align="center" color="fontColorGrey" ml={2}>
       <Text>Rows per page</Text>
       <NumberInput
@@ -32,28 +37,30 @@ const Pagination = ({
       >
         <NumberInputField />
         <NumberInputStepper>
-          <NumberIncrementStepper />
-          <NumberDecrementStepper />
+          <NumberIncrementStepper color="headingColorwhite" />
+          <NumberDecrementStepper color="headingColorwhite" />
         </NumberInputStepper>
       </NumberInput>
     </Flex>
-    <Button
-      isDisabled={1 === page}
-      onClick={() => setPage((prev) => prev - 1)}
-      size="sm"
-    >
-      <GrPrevious />
-    </Button>
-    <Text fontSize="2em" color="headingColorWhite">
-      {page}
-    </Text>
-    <Button
-      isDisabled={Math.ceil(totalCount / limit) === page}
-      onClick={() => setPage((prev) => prev + 1)}
-      size="sm"
-    >
-      <GrNext />
-    </Button>
+    <Flex justify="center" align="center" gap="5px">
+      <Button
+        isDisabled={1 === page}
+        onClick={() => setPage((prev) => prev - 1)}
+        size="xs"
+      >
+        <GrPrevious />
+      </Button>
+      <Text fontSize="1.5em" color="headingColorWhite">
+        {page}
+      </Text>
+      <Button
+        isDisabled={Math.ceil(totalCount / limit) === page}
+        onClick={() => setPage((prev) => prev + 1)}
+        size="xs"
+      >
+        <GrNext />
+      </Button>
+    </Flex>
   </Flex>
 );
 

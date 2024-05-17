@@ -7,7 +7,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import FormEdit from "./FormEdit";
+import FormEdit from "./Form";
 const EditUser = ({
   isOpen,
   onClose,
@@ -18,10 +18,12 @@ const EditUser = ({
 }) => {
   return (
     <div>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size={["xs", "sm", "md", "lg"]}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>
+            {operation === "edit" ? "Edit Details" : "Add User"}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormEdit

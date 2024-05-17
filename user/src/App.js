@@ -7,18 +7,23 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import DisplayUser from "./components/users";
+import DisplayUser from "./components/Display";
 import { FaPlus } from "react-icons/fa6";
-import { createUser } from "./requests";
-import EditUser from "./components/EditUser";
+import EditUser from "./components/Overlay";
 function App() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [details, setDetails] = useState([]);
   const [totalCount, setTotalCount] = useState(10);
-
   return (
     <Box w="100%" minH="100vh" bg="backColor" p="1em 2em">
-      <Flex align={"center"} justify="space-between" w="100%">
+      <Flex
+        align={["flex-start", "flex-start", "center", "center"]}
+        justify={["center", "center", "space-between", "space-between"]}
+        flexDir={["column", "column", "row", "row"]}
+        w="100%"
+        gap={["1em", "1em", "", ""]}
+        p="2em 0"
+      >
         <Box>
           <Heading color="headingColorWhite">User Management System</Heading>
           <Text color="fontColorGrey">

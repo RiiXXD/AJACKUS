@@ -1,5 +1,4 @@
-import { Box, Heading } from "@chakra-ui/react";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Table,
@@ -10,59 +9,38 @@ import {
   Th,
   Td,
   TableContainer,
-  Text,
   Button,
+  Box,
+  Heading,
   Avatar,
-  Skeleton,
-  Stack,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import { useToast } from "@chakra-ui/react";
+
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
-import axios from "axios";
-import { GrPrevious, GrNext } from "react-icons/gr";
 import Pagination from "./Pagination";
-import EditUser from "./EditUser";
+import EditUser from "./Overlay";
+
 import { deleteUser } from "../requests";
+import { getUsers } from "../requests";
+
 const DisplayUser = ({ setDetails, details, totalCount, setTotalCount }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
-  const BASE_URL = "https://jsonplaceholder.typicode.com";
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [editUser, setEditUser] = useState({});
-  // Fetch
-  const getUsers = async (page, limit) => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `${BASE_URL}/users?_page=${page}&_limit=${limit}`
-      );
-      console.log(response.data);
-      if (!response) {
-        setError("Something went wrong!");
-        return;
-      }
-      setDetails(response.data);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleLimitChange = (value) => {
     setLimit(Number(value));
   };
-  const handleDelete = () => {};
   useEffect(() => {
-    getUsers(page, limit);
+    getUsers(page, limit, page, limit, setLoading, setError, setDetails);
   }, [page, limit]);
   if (isLoading) {
     return (
@@ -84,8 +62,8 @@ const DisplayUser = ({ setDetails, details, totalCount, setTotalCount }) => {
   }
 
   return (
-    <Box bg="tableColor" borderRadius={"20px"} p="2em 1em">
-      <TableContainer color={"fontColorGrey"}>
+    <Box bg="tableColor" borderRadius={"20px"} p="2em 1em" minH="60vh">
+      <TableContainer color={"fontColorGrey"} size={["sm", "sm", "lg", "lg"]}>
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -122,6 +100,7 @@ const DisplayUser = ({ setDetails, details, totalCount, setTotalCount }) => {
                       <Td>
                         <Button
                           bg="ctaPurple"
+                          size={["xs", "xs", "sm", "lg"]}
                           borderRadius={"1em"}
                           onClick={() => {
                             setEditUser(user);
@@ -132,6 +111,7 @@ const DisplayUser = ({ setDetails, details, totalCount, setTotalCount }) => {
                           <FaEdit />
                         </Button>
                         <Button
+                          size={["xs", "xs", "sm", "lg"]}
                           bg="ctaPurple"
                           borderRadius={"1em"}
                           onClick={async () => {
