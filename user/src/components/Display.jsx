@@ -32,7 +32,7 @@ const DisplayUser = ({ setDetails, details, totalCount, setTotalCount }) => {
 
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(1);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [editUser, setEditUser] = useState({});
 
@@ -40,7 +40,7 @@ const DisplayUser = ({ setDetails, details, totalCount, setTotalCount }) => {
     setLimit(Number(value));
   };
   useEffect(() => {
-    getUsers(page, limit, page, limit, setLoading, setError, setDetails);
+    getUsers(page, limit, setIsLoading, setError, setDetails);
   }, [page, limit]);
   if (isLoading) {
     return (

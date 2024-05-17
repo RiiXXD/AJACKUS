@@ -63,25 +63,19 @@ export const createUser = async (userData, setDetails, setTotalCount) => {
 export const getUsers = async (
   page,
   limit,
-  setLoading,
+  setIsLoading,
   setError,
   setDetails
 ) => {
+  setIsLoading(true);
   try {
-    setLoading(true);
-    const response = await axios.get(
-      `${BASE_URL}/users?_page=${page}&_limit=${limit}`
-    );
-    console.log(response.data);
-    if (!response) {
-      setError("Something went wrong!");
-      return;
-    }
+    const response = await axios.get(`${BASE_URL}/users`, {
+      params: { _page: page, _limit: limit },
+    });
     setDetails(response.data);
+    setIsLoading(false);
   } catch (error) {
-    console.error("Error fetching user data:", error);
-    setError(error);
-  } finally {
-    setLoading(false);
+    setError("Failed to fetch users");
+    setIsLoading(false);
   }
 };
