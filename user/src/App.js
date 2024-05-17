@@ -1,26 +1,26 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { Flex, Heading, Text, Box, Button } from "@chakra-ui/react";
-import userRow from "./components/userRow";
+import { Flex, Heading, Text, Box, Button, Table } from "@chakra-ui/react";
+import DisplayUser from "./components/users";
+import { FaPlus } from "react-icons/fa6";
 function App() {
   return (
-    <Flex
-      align={"center"}
-      justify="space-between"
-      w="100%"
-      minH="100vh"
-      bg="backColor"
-      p="1em"
-    >
-      <Box>
-        <Heading color="headingColorWhite">User Management System</Heading>
-        <Text color="fontColorGrey">
-          Manage User Accounts and Acess Levels with the User Management Tab in
-          App
-        </Text>
-      </Box>
-      <Button bg="ctaPurple"> Add User</Button>
-    </Flex>
+    <Box w="100%" minH="100vh" bg="backColor" p="1em 2em">
+      <Flex align={"center"} justify="space-between" w="100%">
+        <Box>
+          <Heading color="headingColorWhite">User Management System</Heading>
+          <Text color="fontColorGrey">
+            Manage User Accounts and Acess Levels with the User Management Tab
+            in App
+          </Text>
+        </Box>
+        <Button bg="ctaPurple">
+          {" "}
+          <FaPlus /> Add User
+        </Button>
+      </Flex>
+      <DisplayUser />
+    </Box>
   );
 }
 
