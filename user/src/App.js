@@ -1,6 +1,4 @@
-import logo from "./logo.svg";
-import "./App.css";
-import { Flex, Heading, Text, Box, Button, Table } from "@chakra-ui/react";
+import { Flex, Heading, Text, Box, Button } from "@chakra-ui/react";
 import DisplayUser from "./components/users";
 import { FaPlus } from "react-icons/fa6";
 function App() {
