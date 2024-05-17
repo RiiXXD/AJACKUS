@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
-
+import logo from "./logo.svg";
+import "./App.css";
+import { Flex, Heading, Text, Box, Button } from "@chakra-ui/react";
+import userRow from "./components/userRow";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Flex
+      align={"center"}
+      justify="space-between"
+      w="100%"
+      minH="100vh"
+      bg="backColor"
+      p="1em"
+    >
+      <Box>
+        <Heading color="headingColorWhite">User Management System</Heading>
+        <Text color="fontColorGrey">
+          Manage User Accounts and Acess Levels with the User Management Tab in
+          App
+        </Text>
+      </Box>
+      <Button bg="ctaPurple"> Add User</Button>
+    </Flex>
   );
 }
 
