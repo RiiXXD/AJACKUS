@@ -93,6 +93,9 @@ AJACKUS-user/
     - **Name**: Required field.
     - **Email**: Must be a valid email format and required.
     - **Department**: Required field.
+    - 
+### Scope for Improvement:
+Enhanced User Experience: Given more time, I would focus on further refining the user interface, incorporating more advanced UI/UX principles, and **adding animations and transitions** to enhance user interactions. Additionally, implementing both **light and dark mode** options would provide users with a customizable and comfortable viewing experience.
 
 ### Contributing
 1. Fork the repository.
